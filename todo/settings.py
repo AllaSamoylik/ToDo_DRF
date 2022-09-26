@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'users',
+    'todoapp',
     'corsheaders',
 
 ]
