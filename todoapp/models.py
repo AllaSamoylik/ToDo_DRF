@@ -19,7 +19,8 @@ class ToDo(models.Model):
     updated = models.DateTimeField(auto_now=True, editable=False, verbose_name="Edited")
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="User")
 
-    is_active = models.BooleanField(default=False, verbose_name="ToDo Status")
+    is_active = models.BooleanField(default=True, verbose_name="ToDo Status")
 
     def __str__(self):
         return f"{self.text}, {self.user}"
+
