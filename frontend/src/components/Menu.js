@@ -1,12 +1,21 @@
+import React from "react";
+import {Link} from "react-router-dom";
+
 const Menu = () => {
     return (
-        <header style={{padding: '20px', background: 'aliceblue'}}>
-            <ul>
-                <li><a href="#">Users</a></li>
-                <li><a href="#">Projects</a></li>
-                <li><a href="#">Todos</a></li>
+        <nav style={{padding: '10px', background: 'aliceblue'}}>
+            <ul style={{listStyleType: 'none', padding: '0'}}>
+                <li>
+                    <Link to='/users'>Users</Link>
+                </li>
+                <li>
+                    <Link to='/projects'>Projects</Link>
+                </li>
+                <li>
+                    <Link to='/todos'>Todos</Link>
+                </li>
             </ul>
-        </header>
+        </nav>
     )
 }
 
