@@ -1,9 +1,12 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 const ProjectItem = ({project}) => {
     return (
         <tr>
-            <td>{project.title}</td>
+            <td>
+                <Link to={`/projects/${project.title}`}>{project.title}</Link>
+            </td>
             <td>{project.link}</td>
             <td>{project.users}</td>
         </tr>
@@ -12,7 +15,7 @@ const ProjectItem = ({project}) => {
 
 const ProjectList = ({projects}) => {
     return (
-        <table style={{margin: '0 auto'}}>
+        <table style={{margin: '0 auto', width: '50%', tableLayout: 'fixed'}}>
             <thead>
             <tr>
                 <th>Project name</th>

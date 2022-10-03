@@ -14,7 +14,7 @@ const UserItem = ({user}) => {
 
 const UserList = ({users}) => {
     return (
-        <table style={{margin: '0 auto'}}>
+        <table style={{margin: '0 auto', width: '50%', tableLayout: 'fixed'}}>
             <thead>
             <tr>
                 <th>Username</th>

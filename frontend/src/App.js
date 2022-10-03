@@ -8,6 +8,7 @@ import {BrowserRouter, Routes, Navigate, Route} from 'react-router-dom';
 import NoMatch from "./components/NoMatch";
 import ProjectList from "./components/Project";
 import TodoList from "./components/Todo";
+import ProjectDetails from "./components/ProjectDetails";
 
 
 class App extends React.Component {
@@ -30,6 +31,7 @@ class App extends React.Component {
 
         axios.get('http://127.0.0.1:8000/api/projects/').then(response => {
             const projects = response.data
+            console.log(response.data)
             this.setState({
                 'projects': projects
             })
@@ -51,7 +53,10 @@ class App extends React.Component {
                     <Routes>
                         <Route exact path='/' element={<Navigate to='/projects'/>}/>
                         <Route exact path='/users' element={<UserList users={this.state.users}/>}/>
-                        <Route exact path='/projects' element={<ProjectList projects={this.state.projects}/>}/>
+                        <Route path='/projects'>
+                            <Route index element={<ProjectList projects={this.state.projects}/>}/>
+                            <Route path=':project_title' element={<ProjectDetails projects={this.state.projects}/>}/>
+                        </Route>
                         <Route exact path='/todos' element={<TodoList todos={this.state.todos}/>}/>
                         <Route path='*' element={<NoMatch/>}/>
                     </Routes>

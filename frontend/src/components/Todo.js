@@ -6,13 +6,13 @@ const TodoItem = ({todo}) => {
             <td>{todo.project}</td>
             <td>{todo.text}</td>
             <td>{todo.user}</td>
-            <td>{todo.is_active}</td>
+            <td>{todo.is_active === true ? 'active' : 'not active'}</td>
         </tr>
     )
 }
 const TodoList = ({todos}) => {
     return (
-        <table style={{margin: '0 auto'}}>
+        <table style={{margin: '0 auto', width: '50%', tableLayout: 'fixed'}}>
             <thead>
             <tr>
                 <th>Project</th>
@@ -22,7 +22,7 @@ const TodoList = ({todos}) => {
             </tr>
             </thead>
             <tbody>
-                {todos.map((todo_, index) => <TodoItem key={index} todo={todo_}/>)}
+            {todos.map((todo_, index) => <TodoItem key={index} todo={todo_}/>)}
             </tbody>
         </table>
     )
