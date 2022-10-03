@@ -7,6 +7,8 @@ class Project(models.Model):
     title = models.CharField(max_length=100, verbose_name="Title")
     link = models.URLField(**NULLABLE, verbose_name="Repo Link")
     users = models.ManyToManyField(CustomUser, verbose_name="Users")
+    created = models.DateTimeField(auto_now_add=True, editable=False, blank=True, verbose_name="Created")
+    updated = models.DateTimeField(auto_now=True, editable=False, blank=True, verbose_name="Edited")
 
     def __str__(self):
         return self.title

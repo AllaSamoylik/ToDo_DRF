@@ -6,6 +6,8 @@ const ProjectItem = ({project}) => {
         <tr>
             <td>{project.link}</td>
             <td>{project.users}</td>
+            <td>{project.created}</td>
+            <td>{project.updated}</td>
         </tr>
     )
 }
@@ -21,6 +23,8 @@ const ProjectDetails = ({projects}) => {
                 <tr>
                     <th>Link</th>
                     <th>Users</th>
+                    <th>Created</th>
+                    <th>Updated</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -28,7 +32,7 @@ const ProjectDetails = ({projects}) => {
                 </tbody>
             </table>
         </div>
-)
+    )
 }
 
 export default ProjectDetails;
