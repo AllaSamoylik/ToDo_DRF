@@ -14,7 +14,7 @@ const UserItem = ({user}) => {
 
 const UserList = ({users}) => {
     return (
-        <table>
+        <table style={{margin: '0 auto', width: '50%', tableLayout: 'fixed'}}>
             <thead>
             <tr>
                 <th>Username</th>
@@ -29,4 +29,4 @@ const UserList = ({users}) => {
         </table>
     )
 }
-export default UserList
+export default UserList;

@@ -1,5 +1,5 @@
 from rest_framework.relations import StringRelatedField
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, BooleanField
 from .models import Project, ToDo
 
 
@@ -12,6 +12,7 @@ class ProjectModelSerializer(ModelSerializer):
 
 
 class ToDoModelSerializer(ModelSerializer):
+    is_active = BooleanField()
 
     class Meta:
         model = ToDo

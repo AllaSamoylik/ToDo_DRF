@@ -19,7 +19,7 @@ class ToDoLimitOffsetPagination(LimitOffsetPagination):
 class ProjectModelViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectModelSerializer
-    pagination_class = ProjectLimitOffsetPagination
+    # pagination_class = ProjectLimitOffsetPagination
     filterset_class = ProjectFilter
     # # Фильтрация через параметры, напр. http://127.0.0.1:8000/api/projects/?title=cha
     # def get_queryset(self):
@@ -33,7 +33,7 @@ class ProjectModelViewSet(ModelViewSet):
 class ToDoModelViewSet(ModelViewSet):
     queryset = ToDo.objects.all()
     serializer_class = ToDoModelSerializer
-    pagination_class = ToDoLimitOffsetPagination
+    # pagination_class = ToDoLimitOffsetPagination
     filterset_fields = ['project', 'user']
 
     def destroy(self, request, *args, **kwargs):
