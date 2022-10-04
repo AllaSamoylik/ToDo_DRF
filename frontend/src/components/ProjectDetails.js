@@ -18,7 +18,7 @@ const ProjectDetails = ({projects}) => {
     return (
         <div>
             <h3>Project "{project_title}"</h3>
-            <table style={{margin: '0 auto', width: '50%', tableLayout: 'fixed'}}>
+            <table style={{margin: '0 auto', width: '70%', tableLayout: 'fixed'}}>
                 <thead>
                 <tr>
                     <th>Link</th>
