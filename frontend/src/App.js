@@ -9,6 +9,7 @@ import NoMatch from "./components/NoMatch";
 import ProjectList from "./components/Project";
 import TodoList from "./components/Todo";
 import ProjectDetails from "./components/ProjectDetails";
+import LoginForm from "./components/Auth";
 
 
 class App extends React.Component {
@@ -50,6 +51,7 @@ class App extends React.Component {
                     <Menu/>
                     <Routes>
                         <Route exact path='/' element={<Navigate to='/projects'/>}/>
+                        <Route exact path='/login' element={<LoginForm />} />
                         <Route exact path='/users' element={<UserList users={this.state.users}/>}/>
                         <Route path='/projects'>
                             <Route index element={<ProjectList projects={this.state.projects}/>}/>
