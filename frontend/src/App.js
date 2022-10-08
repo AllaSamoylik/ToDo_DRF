@@ -4,7 +4,7 @@ import axios from "axios";
 import UserList from "./components/User";
 import Menu from "./components/Menu";
 import Footer from "./components/Footer";
-import {BrowserRouter, Routes, Navigate, Route, Link} from 'react-router-dom';
+import {BrowserRouter, Routes, Navigate, Route} from 'react-router-dom';
 import NoMatch from "./components/NoMatch";
 import ProjectList from "./components/Project";
 import TodoList from "./components/Todo";
@@ -29,7 +29,7 @@ class App extends React.Component {
         const cookies = new Cookies()
         cookies.set('token', token)
         console.log(token)
-        this.setState({'token': token})
+        this.setState({'token': token}, ()=>this.load_data())
     }
 
     is_authenticated() {
@@ -43,7 +43,7 @@ class App extends React.Component {
     get_token_from_storage() {
         const cookies = new Cookies()
         const token = cookies.get('token')
-        this.setState({'token': token})
+        this.setState({'token': token}, ()=>this.load_data())
     }
 
     get_token(username, password) {
@@ -57,26 +57,42 @@ class App extends React.Component {
     }
 
 
+    get_headers() {
+        let headers = {
+            'Content-Type': 'application/json'
+        }
+        if (this.is_authenticated()) {
+            headers['Authorization'] = 'Token ' + this.state.token
+        }
+        return headers
+    }
+
+
     load_data() {
-        axios.get('http://127.0.0.1:8000/api/users/')
+        const headers = this.get_headers()
+
+        axios.get('http://127.0.0.1:8000/api/users/', {headers})
             .then(response => {
                 this.setState({users: response.data})
             }).catch(error => console.log(error))
 
-        axios.get('http://127.0.0.1:8000/api/projects/')
+        axios.get('http://127.0.0.1:8000/api/projects/', {headers})
             .then(response => {
                 this.setState({projects: response.data})
             }).catch(error => console.log(error))
 
-        axios.get('http://127.0.0.1:8000/api/todos/')
+        axios.get('http://127.0.0.1:8000/api/todos/', {headers})
             .then(response => {
                 this.setState({todos: response.data})
-            }).catch(error => console.log(error))
+            })
+            .catch(error => {
+                console.log(error)
+                this.setState({todos: []})
+            })
     }
 
     componentDidMount() {
         this.get_token_from_storage()
-        this.load_data()
     }
 
     render() {

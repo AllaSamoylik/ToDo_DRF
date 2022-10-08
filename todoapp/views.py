@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.mixins import DestroyModelMixin
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from .models import Project, ToDo
@@ -35,6 +36,7 @@ class ToDoModelViewSet(ModelViewSet):
     serializer_class = ToDoModelSerializer
     # pagination_class = ToDoLimitOffsetPagination
     filterset_fields = ['project', 'user']
+    permission_classes = [IsAuthenticated]
 
     def destroy(self, request, *args, **kwargs):
         todo = self.get_object()
