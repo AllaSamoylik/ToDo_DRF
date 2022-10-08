@@ -4,12 +4,13 @@ import axios from "axios";
 import UserList from "./components/User";
 import Menu from "./components/Menu";
 import Footer from "./components/Footer";
-import {BrowserRouter, Routes, Navigate, Route} from 'react-router-dom';
+import {BrowserRouter, Routes, Navigate, Route, Link} from 'react-router-dom';
 import NoMatch from "./components/NoMatch";
 import ProjectList from "./components/Project";
 import TodoList from "./components/Todo";
 import ProjectDetails from "./components/ProjectDetails";
 import LoginForm from "./components/Auth";
+import Cookies from "universal-cookie/es6";
 
 
 class App extends React.Component {
@@ -19,9 +20,31 @@ class App extends React.Component {
             'users': [],
             'projects': [],
             'todos': [],
+            'token': ''
         }
     }
 
+
+    set_token(token) {
+        const cookies = new Cookies()
+        cookies.set('token', token)
+        console.log(token)
+        this.setState({'token': token})
+    }
+
+    is_authenticated() {
+        return this.state.token !== ''
+    }
+
+    logout() {
+        this.set_token('')
+    }
+
+    get_token_from_storage() {
+        const cookies = new Cookies()
+        const token = cookies.get('token')
+        this.setState({'token': token})
+    }
 
     get_token(username, password) {
         axios.post('http://127.0.0.1:8000/api-token-auth/', {
@@ -29,7 +52,7 @@ class App extends React.Component {
             password: password
         })
             .then(response => {
-                console.log(response.data)
+                this.set_token(response.data['token'])
             }).catch(error => alert('Неверный логин или пароль'))
     }
 
@@ -52,6 +75,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+        this.get_token_from_storage()
         this.load_data()
     }
 
@@ -60,6 +84,18 @@ class App extends React.Component {
             <div className="App">
                 <BrowserRouter>
                     <Menu/>
+                    <div style={{paddingBottom: '30px', background: 'aliceblue'}}>
+                        {this.is_authenticated() ?
+                            <button
+                                onClick={() => this.logout()}>Logout
+                            </button> :
+                            <button
+                                onClick={() => {
+                                    window.location.href = '/login'
+                                }}>Login
+                            </button>
+                        }
+                    </div>
                     <Routes>
                         <Route exact path='/' element={<Navigate to='/projects'/>}/>
                         <Route exact path='/login' element={<LoginForm
