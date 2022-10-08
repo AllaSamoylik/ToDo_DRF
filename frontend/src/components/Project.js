@@ -8,7 +8,7 @@ const ProjectItem = ({project}) => {
                 <Link to={`/projects/${project.title}`}>{project.title}</Link>
             </td>
             <td>{project.link}</td>
-            <td>{project.users}</td>
+            <td>{project.users.length > 1 ? project.users.join(", ") : project.users}</td>
         </tr>
     )
 }
@@ -20,7 +20,7 @@ const ProjectList = ({projects}) => {
             <tr>
                 <th>Project name</th>
                 <th>Link</th>
-                <th>Users</th>
+                <th>Authors</th>
             </tr>
             </thead>
             <tbody>

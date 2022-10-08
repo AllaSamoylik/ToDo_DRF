@@ -21,28 +21,26 @@ class App extends React.Component {
         }
     }
 
+
+    load_data() {
+        axios.get('http://127.0.0.1:8000/api/users/')
+            .then(response => {
+                this.setState({users: response.data})
+            }).catch(error => console.log(error))
+
+        axios.get('http://127.0.0.1:8000/api/projects/')
+            .then(response => {
+                this.setState({projects: response.data})
+            }).catch(error => console.log(error))
+
+        axios.get('http://127.0.0.1:8000/api/todos/')
+            .then(response => {
+                this.setState({todos: response.data})
+            }).catch(error => console.log(error))
+    }
+
     componentDidMount() {
-        axios.get('http://127.0.0.1:8000/api/users/').then(response => {
-            const users = response.data
-            this.setState({
-                'users': users
-            })
-        }).catch(error => console.log(error))
-
-        axios.get('http://127.0.0.1:8000/api/projects/').then(response => {
-            const projects = response.data
-            console.log(response.data)
-            this.setState({
-                'projects': projects
-            })
-        }).catch(error => console.log(error))
-
-        axios.get('http://127.0.0.1:8000/api/todos/').then(response => {
-            const todos = response.data
-            this.setState({
-                'todos': todos
-            })
-        }).catch(error => console.log(error))
+        this.load_data()
     }
 
     render() {

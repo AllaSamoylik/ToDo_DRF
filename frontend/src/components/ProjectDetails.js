@@ -5,7 +5,7 @@ const ProjectItem = ({project}) => {
     return (
         <tr>
             <td>{project.link}</td>
-            <td>{project.users}</td>
+            <td>{project.users.length > 1 ? project.users.join(", ") : project.users}</td>
             <td>{project.created}</td>
             <td>{project.updated}</td>
         </tr>
@@ -22,7 +22,7 @@ const ProjectDetails = ({projects}) => {
                 <thead>
                 <tr>
                     <th>Link</th>
-                    <th>Users</th>
+                    <th>Authors</th>
                     <th>Created</th>
                     <th>Updated</th>
                 </tr>
