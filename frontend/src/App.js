@@ -20,16 +20,18 @@ class App extends React.Component {
             'users': [],
             'projects': [],
             'todos': [],
-            'token': ''
+            'token': '',
+            'authorized_user': ''
         }
     }
 
-
-    set_token(token) {
+    set_token(token, authorized_user) {
         const cookies = new Cookies()
         cookies.set('token', token)
-        console.log(token)
-        this.setState({'token': token}, ()=>this.load_data())
+        localStorage.setItem('authorized_user', authorized_user)
+
+        this.setState({'authorized_user': localStorage.getItem('authorized_user')})
+        this.setState({'token': token}, () => this.load_data())
     }
 
     is_authenticated() {
@@ -38,12 +40,13 @@ class App extends React.Component {
 
     logout() {
         this.set_token('')
+        localStorage.setItem('authorized_user', '')
     }
 
     get_token_from_storage() {
         const cookies = new Cookies()
         const token = cookies.get('token')
-        this.setState({'token': token}, ()=>this.load_data())
+        this.setState({'token': token}, () => this.load_data())
     }
 
     get_token(username, password) {
@@ -52,10 +55,10 @@ class App extends React.Component {
             password: password
         })
             .then(response => {
-                this.set_token(response.data['token'])
-            }).catch(error => alert('Неверный логин или пароль'))
+                this.set_token(response.data['token'], username)
+            })
+            .catch(error => alert('Неверный логин или пароль'))
     }
-
 
     get_headers() {
         let headers = {
@@ -66,7 +69,6 @@ class App extends React.Component {
         }
         return headers
     }
-
 
     load_data() {
         const headers = this.get_headers()
@@ -93,6 +95,7 @@ class App extends React.Component {
 
     componentDidMount() {
         this.get_token_from_storage()
+        this.setState({'authorized_user': localStorage.getItem('authorized_user')})
     }
 
     render() {
@@ -100,6 +103,11 @@ class App extends React.Component {
             <div className="App">
                 <BrowserRouter>
                     <Menu/>
+                    <div style={{paddingBottom: '30px', background: 'aliceblue'}}>
+                        {this.is_authenticated() ?
+                            <div>Hello, {this.state.authorized_user}</div> :
+                            <div>Hello, Guest</div>}
+                    </div>
                     <div style={{paddingBottom: '30px', background: 'aliceblue'}}>
                         {this.is_authenticated() ?
                             <button
