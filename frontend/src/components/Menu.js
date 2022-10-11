@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 const Menu = () => {
     return (
-        <nav style={{padding: '10px', background: 'aliceblue'}}>
+        <nav style={{padding: '5px', background: 'aliceblue'}}>
             <ul style={{listStyleType: 'none', padding: '0'}}>
                 <li>
                     <Link to='/users'>Users</Link>

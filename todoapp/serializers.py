@@ -1,10 +1,12 @@
 from rest_framework.relations import StringRelatedField
 from rest_framework.serializers import ModelSerializer, BooleanField
+
+from users.serializers import CustomUserModelSerializer
 from .models import Project, ToDo
 
 
 class ProjectModelSerializer(ModelSerializer):
-    # users = StringRelatedField(many=True)
+    users = StringRelatedField(many=True)
 
     class Meta:
         model = Project
@@ -12,7 +14,8 @@ class ProjectModelSerializer(ModelSerializer):
 
 
 class ToDoModelSerializer(ModelSerializer):
-    is_active = BooleanField()
+    project = ProjectModelSerializer()
+    user = CustomUserModelSerializer()
 
     class Meta:
         model = ToDo

@@ -3,9 +3,9 @@ import React from 'react'
 const TodoItem = ({todo}) => {
     return (
         <tr>
-            <td>{todo.project}</td>
+            <td>{todo.project.title}</td>
             <td>{todo.text}</td>
-            <td>{todo.user}</td>
+            <td>{todo.user.username}</td>
             <td>{todo.is_active === true ? 'active' : 'not active'}</td>
         </tr>
     )
