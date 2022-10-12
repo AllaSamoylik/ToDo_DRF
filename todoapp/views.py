@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from .models import Project, ToDo
-from .serializers import ProjectModelSerializer, ToDoModelSerializer
+from .serializers import ProjectModelSerializer, ToDoModelSerializer, ToDoModelSerializerBase
 from .filters import ProjectFilter
 
 
@@ -43,3 +43,8 @@ class ToDoModelViewSet(ModelViewSet):
         todo.is_active = False
         todo.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def get_serializer_class(self):
+        if self.request.method in ['GET']:
+            return ToDoModelSerializer
+        return ToDoModelSerializerBase
