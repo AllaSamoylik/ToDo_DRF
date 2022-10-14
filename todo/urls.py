@@ -5,11 +5,11 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from rest_framework.routers import DefaultRouter
 
-from users.views import CustomUserCustomViewSet
+from users.views import CustomUserModelViewSet
 from todoapp.views import ProjectModelViewSet, ToDoModelViewSet
 
 router = DefaultRouter()
-router.register('users', CustomUserCustomViewSet)
+router.register('users', CustomUserModelViewSet)
 router.register('projects', ProjectModelViewSet)
 router.register('todos', ToDoModelViewSet)
 
