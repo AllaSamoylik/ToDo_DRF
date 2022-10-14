@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'todoapp',
     'corsheaders',
     'rest_framework.authtoken',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
