@@ -6,9 +6,14 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.routers import DefaultRouter
 
 from todoapp.views import ProjectModelViewSet, ToDoModelViewSet
+from users.views import CustomUserCustomViewSet
 
 router = DefaultRouter()
 # router.register('users', CustomUserModelViewSet)
+# ----------------------
+# Для QueryParameterVersioning:
+router.register('users', CustomUserCustomViewSet)
+# ----------------------
 router.register('projects', ProjectModelViewSet)
 router.register('todos', ToDoModelViewSet)
 
@@ -21,7 +26,12 @@ urlpatterns = [
     path('api-jwt-token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api-jwt-token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
+    # ----------------------
+    # Для UrlPathVersioning:
     # path('', include('users.urls')),
-    path('api/users/0.1', include('users.urls', namespace='0.1')),
-    path('api/users/0.2', include('users.urls', namespace='0.2')),
+    # ----------------------
+    # Для NamespaceVersioning:
+    # path('api/users/0.1', include('users.urls', namespace='0.1')),
+    # path('api/users/0.2', include('users.urls', namespace='0.2')),
+    # ----------------------
 ]
