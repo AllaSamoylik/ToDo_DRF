@@ -11,3 +11,16 @@ class CustomUserModelSerializer(ModelSerializer):
             'last_name',
             'email',
         ]
+
+
+class CustomUserV2ModelSerializer(ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = [
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+            'is_superuser',
+            'is_staff',
+        ]
