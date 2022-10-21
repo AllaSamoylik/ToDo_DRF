@@ -13,6 +13,7 @@ import LoginForm from "./components/Auth";
 import Cookies from "universal-cookie/es6";
 import ProjectForm from "./components/ProjectForm";
 import TodoForm from "./components/TodoForm";
+import UpdateProjectForm from "./components/UpdateProjectForm";
 
 
 class App extends React.Component {
@@ -31,6 +32,19 @@ class App extends React.Component {
         const headers = this.get_headers()
         const data = {title: title, link: link, users: users}
         axios.post(`http://127.0.0.1:8000/api/projects/`, data, {headers})
+            .then(response => {
+                this.load_data()
+            })
+            .catch(error => {
+                console.log(error)
+                this.setState({projects: []})
+            })
+    }
+
+    update_project(id, title, link, users) {
+        const headers = this.get_headers()
+        const data = {title: title, link: link, users: users}
+        axios.put(`http://127.0.0.1:8000/api/projects/${id}/`, data, {headers})
             .then(response => {
                 this.load_data()
             })
@@ -196,6 +210,10 @@ class App extends React.Component {
                                              create_project={(title, link, users) => this.create_project(title, link, users)}
                                 />}
                             />
+                            <Route path='/projects/update' element={
+                                <UpdateProjectForm users={this.state.users}
+                                                   projects={this.state.projects}
+                                                   update_project={(id, title, link, users) => this.update_project(id, title, link, users)}/>}/>
                             <Route path=':project_title' element={
                                 <ProjectDetails projects={this.state.projects}
                                                 users={this.state.users}

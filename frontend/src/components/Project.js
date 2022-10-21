@@ -41,6 +41,7 @@ const ProjectList = ({projects, users, delete_project}) => {
                                                             all_users={users}/>)}
             </tbody>
         </table><br></br>
+        <Link to='/projects/update'>Update</Link><br></br>
         <Link to='/projects/create'>Create</Link>
         </div>
     )
