@@ -6,7 +6,11 @@ from .models import Project, ToDo
 
 
 class ProjectModelSerializer(ModelSerializer):
-    users = StringRelatedField(many=True)
+    # users = StringRelatedField(many=True)
+    # users = CustomUserModelSerializer(many=True)
+
+    # def to_internal_value(self, value):
+    #     return value
 
     class Meta:
         model = Project
@@ -17,6 +21,7 @@ class ToDoModelSerializerBase(ModelSerializer):
     class Meta:
         model = ToDo
         fields = [
+            'id',
             'project',
             'text',
             'user',
@@ -31,6 +36,7 @@ class ToDoModelSerializer(ModelSerializer):
     class Meta:
         model = ToDo
         fields = [
+            'id',
             'project',
             'text',
             'user',

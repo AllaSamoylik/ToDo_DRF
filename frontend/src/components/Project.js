@@ -1,32 +1,48 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-const ProjectItem = ({project}) => {
+const ProjectItem = ({project, all_users, delete_project}) => {
     return (
         <tr>
             <td>
                 <Link to={`/projects/${project.title}`}>{project.title}</Link>
             </td>
             <td>{project.link}</td>
-            <td>{project.users.length > 1 ? project.users.join(", ") : project.users}</td>
+            <td>
+                {project.users.map((user_id) => {
+                let user = all_users.find(user => user.id === user_id)
+                return user.username + ' '
+                })}
+            </td>
+            <td>
+                <button onClick={() => delete_project(project.id)}
+                        type='button'>Delete
+                </button>
+            </td>
         </tr>
     )
 }
 
-const ProjectList = ({projects}) => {
+const ProjectList = ({projects, users, delete_project}) => {
     return (
-        <table style={{margin: '0 auto', width: '50%', tableLayout: 'fixed'}}>
+        <div>
+            <table style={{margin: '0 auto', width: '70%', tableLayout: 'fixed'}}>
             <thead>
             <tr>
                 <th>Project name</th>
                 <th>Link</th>
                 <th>Authors</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
-            {projects.map((project_, index) => <ProjectItem key={index} project={project_}/>)}
+            {projects.map((project_, index) => <ProjectItem key={index} project={project_}
+                                                            delete_project={delete_project}
+                                                            all_users={users}/>)}
             </tbody>
         </table>
+        <Link to='/projects/create'>Create</Link>
+        </div>
     )
 }
 

@@ -11,6 +11,7 @@ import TodoList from "./components/Todo";
 import ProjectDetails from "./components/ProjectDetails";
 import LoginForm from "./components/Auth";
 import Cookies from "universal-cookie/es6";
+import ProjectForm from "./components/ProjectForm";
 
 
 class App extends React.Component {
@@ -23,6 +24,31 @@ class App extends React.Component {
             'token': '',
             'authorized_user': ''
         }
+    }
+
+    create_project(title, link, users) {
+        const headers = this.get_headers()
+        const data = {title: title, link: link, users: users}
+        axios.post(`http://127.0.0.1:8000/api/projects/`, data, {headers})
+            .then(response => {
+                this.load_data()
+            })
+            .catch(error => {
+                console.log(error)
+                this.setState({projects: []})
+            })
+    }
+
+    delete_project(id) {
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:8000/api/projects/${id}`, {headers})
+            .then(response => {
+                this.load_data()
+            })
+            .catch(error => {
+                console.log(error)
+                 this.setState({projects: []})
+            })
     }
 
     set_token(token, authorized_user) {
@@ -126,8 +152,20 @@ class App extends React.Component {
                             get_token={(username, password) => this.get_token(username, password)}/>}/>
                         <Route exact path='/users' element={<UserList users={this.state.users}/>}/>
                         <Route path='/projects'>
-                            <Route index element={<ProjectList projects={this.state.projects}/>}/>
-                            <Route path=':project_title' element={<ProjectDetails projects={this.state.projects}/>}/>
+                            <Route index element={
+                                <ProjectList projects={this.state.projects}
+                                             users={this.state.users}
+                                             delete_project={(id) => this.delete_project(id)}
+                                />}
+                            />
+                            <Route path='/projects/create' element={
+                                <ProjectForm users={this.state.users}
+                                             create_project={(title, link, users) => this.create_project(title, link, users)}/>}/>
+                            <Route path=':project_title' element={
+                                <ProjectDetails projects={this.state.projects}
+                                                users={this.state.users}
+                                />}
+                            />
                         </Route>
                         <Route exact path='/todos' element={<TodoList todos={this.state.todos}/>}/>
                         <Route path='*' element={<NoMatch/>}/>
