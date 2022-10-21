@@ -157,6 +157,7 @@ class App extends React.Component {
         return (
             <div className="App">
                 <BrowserRouter>
+
                     <Menu/>
                     <div style={{paddingBottom: '30px', background: 'aliceblue'}}>
                         {this.is_authenticated() ?
@@ -175,6 +176,8 @@ class App extends React.Component {
                             </button>
                         }
                     </div>
+
+
                     <Routes>
                         <Route exact path='/' element={<Navigate to='/projects'/>}/>
                         <Route exact path='/login' element={<LoginForm
@@ -204,14 +207,18 @@ class App extends React.Component {
                             <TodoList todos={this.state.todos}
                                       delete_todo={(id) => this.delete_todo(id)}
                             />}
-
                         />
                         <Route exact path='/todos/create' element={
-                            <TodoForm create_todo={(project, text, user) => this.create_todo(project, text, user)}/>}
+                            <TodoForm projects={(this.state.projects)}
+                                      users={this.state.users}
+                                      create_todo={(project, text, user) => this.create_todo(project, text, user)}
+                            />}
                         />
 
                         <Route path='*' element={<NoMatch/>}/>
                     </Routes>
+
+
                 </BrowserRouter>
                 <Footer/>
             </div>

@@ -35,7 +35,7 @@ const TodoList = ({todos, delete_todo}) => {
                                                        delete_todo={delete_todo}
                 />)}
                 </tbody>
-            </table>
+            </table><br></br>
             <Link to='/todos/create'>Create</Link>
         </div>
 
