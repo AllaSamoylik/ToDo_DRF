@@ -11,6 +11,9 @@ import TodoList from "./components/Todo";
 import ProjectDetails from "./components/ProjectDetails";
 import LoginForm from "./components/Auth";
 import Cookies from "universal-cookie/es6";
+import ProjectForm from "./components/ProjectForm";
+import TodoForm from "./components/TodoForm";
+import UpdateProjectForm from "./components/UpdateProjectForm";
 
 
 class App extends React.Component {
@@ -24,6 +27,72 @@ class App extends React.Component {
             'authorized_user': ''
         }
     }
+
+    create_project(title, link, users) {
+        const headers = this.get_headers()
+        const data = {title: title, link: link, users: users}
+        axios.post(`http://127.0.0.1:8000/api/projects/`, data, {headers})
+            .then(response => {
+                this.load_data()
+            })
+            .catch(error => {
+                console.log(error)
+                this.setState({projects: []})
+            })
+    }
+
+    update_project(id, title, link, users) {
+        const headers = this.get_headers()
+        const data = {title: title, link: link, users: users}
+        axios.put(`http://127.0.0.1:8000/api/projects/${id}/`, data, {headers})
+            .then(response => {
+                this.load_data()
+            })
+            .catch(error => {
+                console.log(error)
+                this.setState({projects: []})
+            })
+    }
+
+    delete_project(id) {
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:8000/api/projects/${id}`, {headers})
+            .then(response => {
+                this.load_data()
+            })
+            .catch(error => {
+                console.log(error)
+                this.setState({projects: []})
+            })
+    }
+
+
+    create_todo(project, text, user) {
+        const headers = this.get_headers()
+        const data = {project: project, text: text, user: user}
+        axios.post(`http://127.0.0.1:8000/api/todos/`, data, {headers})
+            .then(response => {
+                this.load_data()
+            })
+            .catch(error => {
+                console.log(error)
+                this.setState({todos: []})
+            })
+    }
+
+
+    delete_todo(id) {
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:8000/api/todos/${id}`, {headers})
+            .then(response => {
+                this.load_data()
+            })
+            .catch(error => {
+                console.log(error)
+                this.setState({todos: []})
+            })
+    }
+
 
     set_token(token, authorized_user) {
         const cookies = new Cookies()
@@ -102,6 +171,7 @@ class App extends React.Component {
         return (
             <div className="App">
                 <BrowserRouter>
+
                     <Menu/>
                     <div style={{paddingBottom: '30px', background: 'aliceblue'}}>
                         {this.is_authenticated() ?
@@ -120,18 +190,53 @@ class App extends React.Component {
                             </button>
                         }
                     </div>
+
+
                     <Routes>
                         <Route exact path='/' element={<Navigate to='/projects'/>}/>
                         <Route exact path='/login' element={<LoginForm
                             get_token={(username, password) => this.get_token(username, password)}/>}/>
                         <Route exact path='/users' element={<UserList users={this.state.users}/>}/>
+
                         <Route path='/projects'>
-                            <Route index element={<ProjectList projects={this.state.projects}/>}/>
-                            <Route path=':project_title' element={<ProjectDetails projects={this.state.projects}/>}/>
+                            <Route index element={
+                                <ProjectList projects={this.state.projects}
+                                             users={this.state.users}
+                                             delete_project={(id) => this.delete_project(id)}
+                                />}
+                            />
+                            <Route path='/projects/create' element={
+                                <ProjectForm users={this.state.users}
+                                             create_project={(title, link, users) => this.create_project(title, link, users)}
+                                />}
+                            />
+                            <Route path='/projects/update' element={
+                                <UpdateProjectForm users={this.state.users}
+                                                   projects={this.state.projects}
+                                                   update_project={(id, title, link, users) => this.update_project(id, title, link, users)}/>}/>
+                            <Route path=':project_title' element={
+                                <ProjectDetails projects={this.state.projects}
+                                                users={this.state.users}
+                                />}
+                            />
                         </Route>
-                        <Route exact path='/todos' element={<TodoList todos={this.state.todos}/>}/>
+
+                        <Route exact path='/todos' element={
+                            <TodoList todos={this.state.todos}
+                                      delete_todo={(id) => this.delete_todo(id)}
+                            />}
+                        />
+                        <Route exact path='/todos/create' element={
+                            <TodoForm projects={(this.state.projects)}
+                                      users={this.state.users}
+                                      create_todo={(project, text, user) => this.create_todo(project, text, user)}
+                            />}
+                        />
+
                         <Route path='*' element={<NoMatch/>}/>
                     </Routes>
+
+
                 </BrowserRouter>
                 <Footer/>
             </div>

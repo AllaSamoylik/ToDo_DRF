@@ -38,11 +38,11 @@ class ToDoModelViewSet(ModelViewSet):
     filterset_fields = ['project', 'user']
     permission_classes = [IsAuthenticated]
 
-    def destroy(self, request, *args, **kwargs):
-        todo = self.get_object()
-        todo.is_active = False
-        todo.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    # def destroy(self, request, *args, **kwargs):
+    #     todo = self.get_object()
+    #     todo.is_active = False
+    #     todo.save()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
     def get_serializer_class(self):
         if self.request.method in ['GET']:
