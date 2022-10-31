@@ -20,7 +20,7 @@ services:
 #      - db
   backend:
     build:
-      context: .
+      context: ./Todo_DRF
     privileged: true
     restart: always
     expose:
@@ -38,3 +38,11 @@ services:
       - 8000:80
     depends_on:
       - backend
+  frontend:
+    build: ./frontend
+    privileged: true
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - nginx
