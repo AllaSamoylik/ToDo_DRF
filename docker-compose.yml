@@ -23,8 +23,8 @@ services:
       context: .
     privileged: true
     restart: always
-    ports:
-      - 8080:8080
+    expose:
+      - 8080
     command: bash -c "
       python manage.py migrate &&
       python manage.py create_users &&
@@ -32,3 +32,9 @@ services:
       "
     depends_on:
       - db
+  nginx:
+    build: ./nginx
+    ports:
+      - 8000:80
+    depends_on:
+      - backend
